@@ -5,6 +5,9 @@
 
 coffee = require('coffee-script')
 express = require('express')
+redis = require('redis-url')
+
+redis_connection = if process.env.SOMEREDIS_URL then redis.connect(process.env.SOMEREDIS_URL) else redis.connect()
 
 app = module.exports = express.createServer()
 
@@ -23,11 +26,11 @@ app.configure( () ->
 )
 
 app.configure('development', () ->
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })) 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }))
 )
 
 app.configure('production', () ->
-  app.use(express.errorHandler()) 
+  app.use(express.errorHandler())
 )
 
 # Routes
