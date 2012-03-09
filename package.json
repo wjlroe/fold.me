@@ -1,0 +1,10 @@
+{
+    "name": "fold.me"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": ">= 0.0.1"
+    , "ejs": ">= 0.0.1"
+    , "coffee-script": ">= 0.0.1"
+  }
+}
