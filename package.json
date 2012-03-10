@@ -1,11 +1,13 @@
 {
-    "name": "fold.me"
-    , "version": "0.0.1"
-    , "private": true
-    , "dependencies": {
+    "name": "fold.me",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
         "express": ">= 0.0.1",
         "ejs": ">= 0.0.1",
         "coffee-script": ">= 0.0.1",
-        "redis-url": " >= 0.1.0"
+        "redis-url": ">= 0.1.0",
+        "coffee-script": ">= 1.2.0",
+        "Set": ">= 0.1.0"
     }
 }
