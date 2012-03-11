@@ -9,7 +9,7 @@ redis = require('redis-url')
 Set = require('Set')
 
 # redis connection uses provided URL (from Heroku) or connects localally
-redis_connection = if process.env.SOMEREDIS_URL then redis.connect(process.env.SOMEREDIS_URL) else redis.connect()
+redis_connection = if process.env.REDISTOGO_URL then redis.connect(process.env.REDISTOGO_URL) else redis.connect()
 
 # Create the ExpressJS server object
 app = module.exports = express.createServer()
