@@ -9,7 +9,7 @@
         "redis-url": ">= 0.1.0",
         "coffee-script": ">= 1.2.0",
         "Set": ">= 0.1.0",
-        "google-images": ">= 0.0.5"
+        "google-images": ">= 0.0.6"
     },
     "devDependencies": {
         "docco": ">= 0.3.0"
