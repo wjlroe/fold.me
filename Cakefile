@@ -1,6 +1,6 @@
 coffee = require('coffee-script')
 redis = require('redis-url')
-google_images = require('./lib/node-google-images')
+google_images = require('google-images')
 
 updateImages = (query) ->
   redis_connection = if process.env.SOMEREDIS_URL then redis.connect(process.env.SOMEREDIS_URL) else redis.connect()
