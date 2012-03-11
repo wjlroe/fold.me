@@ -1,4 +1,4 @@
-# Fold.me is a useful webapp to return urls of images
+# **Fold.me** is a useful webapp to return urls of images
 # of scottish fold cats for your delectation
 
 #### Module dependencies.
@@ -15,6 +15,8 @@ redis_connection = if process.env.SOMEREDIS_URL then redis.connect(process.env.S
 app = module.exports = express.createServer()
 
 #### Configuration
+
+scotch_key = 'scotch_folds'
 
 app.configure () ->
   app.set 'views', __dirname + '/views'
@@ -56,23 +58,28 @@ app.get '/', (req, res) ->
   }
 
 app.get '/count', (req, res) ->
-  redis_connection.scard 'scotch_folds', (err, reply) ->
+  redis_connection.scard scotch_key, (err, reply) ->
     res.json {fold_count: reply}
 
 app.get '/random', (req, res) ->
-  redis_connection.srandmember 'scotch_folds', (err, reply) ->
+  redis_connection.srandmember scotch_key, (err, reply) ->
     res.json {scotch_fold: reply}
 
 app.get '/bomb', (req, res) ->
-  redis_connection.scard 'scotch_folds', (err, num_folds) ->
+  redis_connection.scard scotch_key, (err, num_folds) ->
     bomb_count = parseInt req.query['count']
     if bomb_count > num_folds
-      redis_connection.smembers 'scotch_folds', (err, folds) ->
+      redis_connection.smembers scotch_key, (err, folds) ->
         res.json {scotch_folds: folds}
     else
-      n_rand_items "scotch_folds", bomb_count, (folds) ->
+      n_rand_items scotch_key, bomb_count, (folds) ->
         res.json {scotch_folds: folds}
 
+# Use Foreman's requested port if available
 port = process.env.PORT ? 3300
+
+# Start the app
 app.listen(port)
+
+# Be nice and say what port we started on
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)

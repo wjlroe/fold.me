@@ -8,6 +8,7 @@
         "coffee-script": ">= 0.0.1",
         "redis-url": ">= 0.1.0",
         "coffee-script": ">= 1.2.0",
-        "Set": ">= 0.1.0"
+        "Set": ">= 0.1.0",
+        "google-images": ">= 0.0.5"
     }
 }
