@@ -7,7 +7,7 @@ updateImages = (query) ->
   google_images.searchPages query, 5, (results) ->
     urls = (result.url for result in results)
     console.log(urls)
-    redis_connection.sadd 'scotch_folds', urls
+    redis_connection.sadd 'scotch_folds:uncurated', urls
 
 task 'images:update', 'fetch new images into the database', (options) ->
   updateImages "scotch fold"
