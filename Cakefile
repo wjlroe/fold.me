@@ -60,7 +60,7 @@ tumblrImages = (number) ->
         redis_connection.sadd 'scotch_folds:uncurated', uncurated_images
 
 task 'images:update', 'fetch new images into the database', (options) ->
-  tumblrImages(20)
+  tumblrImages(40)
   saveStaticList()
   #updateImages "scotch fold"
   #updateImages "scottish fold"
