@@ -1,2 +1,18 @@
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<section id="main">
+
+  <h1><%= welcome %></h1>
+  <p>Welcome to <%= welcome %></p>
+
+  <a href="/auth/37signals">Loggin with 37Signals</a>
+
+  <div class="container">
+    <div class="row">
+      <% folds.forEach(function(fold) { %>
+        <div class="threecol">
+          <img src="<%= fold %>">
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+</section>
