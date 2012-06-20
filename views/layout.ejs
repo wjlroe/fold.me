@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8" />
+    <title>fold.me</title>
+
+    <meta name="viewport" content="width=device-width,
+    initial-scale=1.0" />
+
+    <link rel="stylesheet" href="stylesheets/bootstrap.css"
+    type="text/css" />
+
+	  <!-- 1140px Grid styles for IE -->
+	  <!--[if lte IE 9]><link rel="stylesheet" href="stylesheets/ie.css" type="text/css" media="screen" /><![endif]-->
+
+	  <!-- The 1140px Grid - http://cssgrid.net/ -->
+	  <link rel="stylesheet" href="stylesheets/1140.css" type="text/css" media="screen" />
+
+	  <!-- Your styles -->
+	  <link rel="stylesheet" href="stylesheets/styles.css" type="text/css" media="screen" />
+
+	  <!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-javascripts/ - Enables media queries in some unsupported browsers-->
+	  <script type="text/javascript"
+	  src="javascripts/css3-mediaqueries.js"></script>
+
+    <script type="text/javascript"
+    src="javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript"
+    src="javascripts/foldme.js"></script>
+
+    <style>
+      body { padding-top: 80px; }
+      .threecol { padding-bottom: 5em; }
+    </style>
   </head>
   <body>
-    <%- body %>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">fold.me</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <%- body %>
+
+      <footer>This site uses cookies - deal with it</footer>
+    </div>
+
   </body>
 </html>
