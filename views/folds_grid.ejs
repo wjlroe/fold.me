@@ -1,0 +1,13 @@
+<section id="main">
+  <div class="row">
+    <ul class="thumbnails">
+      <% folds.forEach(function(fold) { %>
+        <li class="span3">
+          <div class="thumbnail">
+            <img src="<%= fold %>">
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</section>
