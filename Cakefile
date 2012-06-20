@@ -17,9 +17,15 @@ uncurated = (urls, fun, vals) ->
     next_url = urls.pop()
     redis_connection.sismember 'scotch_folds:curated', next_url, (err, reply) ->
       if reply == 0
-        console.log("push", next_url)
-        vals.push next_url
-      uncurated(urls, fun, vals)
+        redis_connection.sismember 'scotch_folds:ignore', next_url, (err, reply) ->
+          if reply == 0
+            console.log("push", next_url)
+            vals.push next_url
+            uncurated(urls, fun, vals)
+          else
+            uncurated(urls, fun, vals)
+      else
+        uncurated(urls, fun, vals)
 
 saveImages = (error, results) ->
   urls = (result.url for result in results)
