@@ -1,0 +1,27 @@
+<section id="curation">
+  <h1>Curation</h1>
+
+  <div class="container">
+    <div class="row">
+      <ul class="thumbnails">
+        <% uncurated_folds.forEach(function(fold) { %>
+          <li class="span3">
+            <div class="thumbnail">
+              <img src="<%= fold %>">
+              <div class="btn-group">
+                <a class="btn btn-success add" href="#" data-fold="<%= fold %>">
+                  <i class="icon-ok icon-white"></i>
+                  fold.me!
+                </a>
+                <a class="btn btn-danger remove" href="#" data-fold="<%= fold %>">
+                  <i class="icon-remove icon-white"></i>
+                  Not a fold!
+                </a>
+              </div>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</section>
