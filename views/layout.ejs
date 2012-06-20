@@ -25,12 +25,23 @@
 
     <script type="text/javascript"
     src="javascripts/jquery-1.7.2.js"></script>
+
+    <script type="text/javascript"
+            src="javascripts/bootstrap-dropdown.js"></script>
+
+    <script type="text/javascript"
+            src="javascripts/bootstrap-tooltip.js"</script>
+
+    <script type="text/javascript"
+            src="javascripts/bootstrap-carousel.js"></script>
+
     <script type="text/javascript"
     src="javascripts/foldme.js"></script>
 
     <style>
       body { padding-top: 80px; }
       .threecol { padding-bottom: 5em; }
+      .threecol .btn-group { padding-top: 1em; }
     </style>
   </head>
   <body>
@@ -38,6 +49,23 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="/">fold.me</a>
+          <div class="nav-collapse">
+            <ul class="nav pull-right">
+              <% if (loggedIn) { %>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown"
+                     href="#">Hi, <%= user_name %>
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/logout">Logout</a></li>
+                  </ul>
+                </li>
+              <% } else { %>
+                <li><a href="/auth/37signals">Login</a></li>
+              <% } %>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

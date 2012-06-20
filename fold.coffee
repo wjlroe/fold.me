@@ -79,13 +79,21 @@ authenticate = (req, res, next) ->
   else
     res.redirect('/auth/37signals')
 
+user_name = (req) ->
+  if req.session.auth.loggedIn
+    ident = req.session.auth['37signals'].user.identity
+    "#{ident.first_name} #{ident.last_name}"
+  else
+    ""
+
 #### Routes
 
 app.get '/', (req, res) ->
   redis_connection.smembers "#{scotch_key}:curated", (err, reply) ->
     res.render 'index', {
-      welcome: 'Scottish Folds are awesome',
-      folds: reply
+      folds: reply,
+      loggedIn: req.session.auth.loggedIn,
+      user_name: user_name(req)
     }
 
 app.get '/count', (req, res) ->
@@ -107,12 +115,11 @@ app.get '/bomb', (req, res) ->
         res.json {scotch_folds: folds}
 
 app.get '/curate', authenticate, (req, res) ->
-  ident = req.session.auth['37signals'].user.identity
   redis_connection.smembers "#{scotch_key}:uncurated", (err, reply) ->
     res.render 'curate', {
-      user: everyauth.user,
-      name: "#{ident.first_name} #{ident.last_name}",
-      uncurated_folds: reply
+      uncurated_folds: reply,
+      loggedIn: req.session.auth.loggedIn,
+      user_name: user_name(req)
     }
 
 app.post '/fold.me', authenticate, (req, res) ->
