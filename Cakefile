@@ -1,6 +1,7 @@
 coffee = require('coffee-script')
 redis = require('redis-url')
-google_images = require('google-images')
+google_images = require('./lib/google-images')
+tumblr_images = require('./lib/tumblr-images')
 
 redis_connection = if process.env.REDISTOGO_URL then redis.connect(process.env.REDISTOGO_URL) else redis.connect()
 
@@ -49,10 +50,18 @@ saveImages = (error, results) ->
 
 updateImages = (query) ->
   console.log query
-  (google_images.search query, {page: i, callback: saveImages} for i in [0..100])
+  (google_images.search query, {page: i*8, callback: saveImages} for i in [0..20])
+
+tumblrImages = (number) ->
+  tumblr_images "http://www.tumblr.com/tagged/scottish-fold", number, (images) ->
+    uncurated images, (uncurated_images) ->
+      if uncurated_images.length > 0
+        console.log "Adding", uncurated_images.length, " images from tumblr"
+        redis_connection.sadd 'scotch_folds:uncurated', uncurated_images
 
 task 'images:update', 'fetch new images into the database', (options) ->
+  tumblrImages(20)
   saveStaticList()
-  updateImages "scotch fold"
-  updateImages "scottish fold"
+  #updateImages "scotch fold"
+  #updateImages "scottish fold"
   console.log 'Done!!'
