@@ -3,8 +3,7 @@
 $(function() {
   $('#curation a[data-fold]').on('click', function() {
     console.log($(this));
-    parent = $(this).parent();
-    row = parent.parent();
+    parent = $(this).parent().parent().parent();
     fold_url = $(this).attr('data-fold');
     console.log("fold_url", fold_url);
     if ($(this).hasClass('add')) {
@@ -23,7 +22,6 @@ $(function() {
       success: function() {
         console.log("fold recorded!", parent);
         parent.fadeOut();
-        row.scrollTop();
       }
     });
   });

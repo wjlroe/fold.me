@@ -79,8 +79,12 @@ authenticate = (req, res, next) ->
   else
     res.redirect('/auth/37signals')
 
+loggedIn = (req) ->
+  if req.session.auth
+    req.session.auth.loggedIn
+
 user_name = (req) ->
-  if req.session.auth.loggedIn
+  if loggedIn(req)
     ident = req.session.auth['37signals'].user.identity
     "#{ident.first_name} #{ident.last_name}"
   else
@@ -90,9 +94,9 @@ user_name = (req) ->
 
 app.get '/', (req, res) ->
   redis_connection.smembers "#{scotch_key}:curated", (err, reply) ->
-    res.render 'index', {
+    res.render 'folds_grid', {
       folds: reply,
-      loggedIn: req.session.auth.loggedIn,
+      loggedIn: loggedIn(req),
       user_name: user_name(req)
     }
 
@@ -118,7 +122,15 @@ app.get '/curate', authenticate, (req, res) ->
   redis_connection.smembers "#{scotch_key}:uncurated", (err, reply) ->
     res.render 'curate', {
       uncurated_folds: reply,
-      loggedIn: req.session.auth.loggedIn,
+      loggedIn: loggedIn(req),
+      user_name: user_name(req)
+    }
+
+app.get '/ignored', authenticate, (req, res) ->
+  redis_connection.smembers "#{scotch_key}:ignore", (err, reply) ->
+    res.render 'folds_grid', {
+      folds: reply,
+      loggedIn: loggedIn(req),
       user_name: user_name(req)
     }
 
