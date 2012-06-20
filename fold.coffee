@@ -111,6 +111,8 @@ app.get '/random', (req, res) ->
 app.get '/bomb', (req, res) ->
   redis_connection.scard "#{scotch_key}:curated", (err, num_folds) ->
     bomb_count = parseInt req.query['count'] || 5
+    if bomb_count > 20
+      bomb_count = 20
     if bomb_count > num_folds
       redis_connection.smembers "#{scotch_key}:curated", (err, folds) ->
         res.json {scotch_folds: folds}
