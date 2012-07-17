@@ -108,6 +108,10 @@ app.get '/random', (req, res) ->
   redis_connection.srandmember "#{scotch_key}:curated", (err, reply) ->
     res.json {scotch_fold: reply}
 
+app.get '/image', (req, res) ->
+  redis_connection.srandmember "#{scotch_key}:curated", (err, reply) ->
+    res.redirect(reply)
+
 app.get '/bomb', (req, res) ->
   redis_connection.scard "#{scotch_key}:curated", (err, num_folds) ->
     bomb_count = parseInt req.query['count'] || 5
