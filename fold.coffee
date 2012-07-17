@@ -11,6 +11,7 @@ everyauth = require('everyauth')
 
 # redis connection uses provided URL (from Heroku) or connects localally
 redis_connection = if process.env.REDISTOGO_URL then redis.connect(process.env.REDISTOGO_URL) else redis.connect()
+secret = if process.env.SESSION_SECRET then process.env.SESSION_SECRET else "secret123"
 
 everyauth['37signals']
   .appId(process.env.SIGNALS_APP_ID)
@@ -37,7 +38,7 @@ app.configure () ->
   app.use express.bodyParser()
   app.use express.methodOverride()
   app.use express.cookieParser()
-  app.use express.session({ secret: process.env.SESSION_SECRET })
+  app.use express.session({ secret: secret })
   app.use app.router
   app.use express.static(__dirname + '/public')
   app.use everyauth.middleware()
@@ -99,6 +100,12 @@ app.get '/', (req, res) ->
       loggedIn: loggedIn(req),
       user_name: user_name(req)
     }
+
+app.get '/about', (req, res) ->
+  res.render 'about', {
+    loggedIn: loggedIn(req),
+    user_name: user_name(req)
+  }
 
 app.get '/count', (req, res) ->
   redis_connection.scard "#{scotch_key}:curated", (err, reply) ->
