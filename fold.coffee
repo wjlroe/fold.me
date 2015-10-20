@@ -8,6 +8,12 @@ express = require('express')
 redis = require('redis-url')
 Set = require('Set')
 everyauth = require('everyauth')
+logger = require('morgan')
+bodyParser = require('body-parser')
+methodOverride = require('method-override')
+cookieParser = require('cookie-parser')
+session = require('express-session')
+errorhandler = require('errorhandler')
 
 # redis connection uses provided URL (from Heroku) or connects localally
 redis_connection = if process.env.REDISTOGO_URL then redis.connect(process.env.REDISTOGO_URL) else redis.connect()
@@ -21,34 +27,26 @@ everyauth['37signals']
     _37signalsUser.identity
 
 # Create the ExpressJS server object
-app = express.createServer()
-
-# Embelish the app with some view helpers for authentication
-everyauth.helpExpress app
+app = express()
 
 #### Configuration
 
 scotch_key = 'scotch_folds'
 organisation = process.env.ORGANISATION
 
-app.configure () ->
-  app.set 'views', __dirname + '/views'
-  app.set 'view engine', 'ejs'
-  app.use express.logger('dev')
-  app.use express.bodyParser()
-  app.use express.methodOverride()
-  app.use express.cookieParser()
-  app.use express.session({ secret: secret })
-  app.use app.router
-  app.use express.static(__dirname + '/public')
-  app.use everyauth.middleware()
+app.set 'views', __dirname + '/views'
+app.set 'view engine', 'ejs'
+app.use logger('dev')
+app.use bodyParser.json()
+app.use methodOverride()
+app.use cookieParser()
+app.use session({ secret: secret, resave: true, saveUninitialized: true })
+app.use express.static(__dirname + '/public')
+app.use everyauth.middleware()
 
-app.configure 'development', () ->
+if 'development' == app.get('env')
   everyauth.debug = true
-  app.use express.errorHandler({ dumpExceptions: true, showStack: true })
-
-app.configure 'production', () ->
-  app.use express.errorHandler()
+  app.use(errorhandler({ dumpExceptions: true, showStack: true }))
 
 #### Helpers
 
@@ -131,6 +129,11 @@ app.get '/bomb', (req, res) ->
       n_rand_items "#{scotch_key}:curated", bomb_count, (folds) ->
         res.json {scotch_folds: folds}
 
+app.get '/export', (req, res) ->
+  redis_connection.smembers "#{scotch_key}:curated", (err, curated) ->
+    redis_connection.smembers "#{scotch_key}:uncurated", (err, uncurated) ->
+      res.json {curated: curated, uncurated: uncurated}
+
 app.get '/curate', authenticate, (req, res) ->
   redis_connection.smembers "#{scotch_key}:uncurated", (err, reply) ->
     res.render 'curate', {
@@ -164,9 +167,9 @@ app.post '/not.fold', authenticate, (req, res) ->
 port = process.env.PORT ? 3300
 
 # Start the app
-app.listen(port)
+server = app.listen(port)
 
 # Be nice and say what port we started on
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
+console.log("Express server listening on port %d in %s mode", server.address().port, app.get('env'))
 
 module.exports = app
