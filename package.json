@@ -4,19 +4,19 @@
   "private": true,
   "dependencies": {
     "Set": "^0.4.1",
-    "body-parser": "^1.14.2",
-    "coffee-script": "^1.10.0",
+    "body-parser": "^1.18.2",
+    "coffee-script": "^1.12.7",
     "cookie-parser": "^1.4.3",
-    "ejs": "^2.3.4",
-    "errorhandler": "^1.4.3",
+    "ejs": "^2.5.7",
+    "errorhandler": "^1.5.0",
     "everyauth": "^0.4.9",
-    "express": "^4.13.4",
-    "express-session": "^1.11.3",
-    "jsdom": "^7.0.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "jsdom": "^7.2.2",
     "method-override": "^2.3.10",
-    "morgan": "^1.6.1",
+    "morgan": "^1.9.0",
     "redis-url": "^1.2.1",
-    "request": "^2.65.0"
+    "request": "^2.83.0"
   },
   "devDependencies": {
     "docco": "0.7.x"
