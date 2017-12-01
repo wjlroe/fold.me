@@ -12,7 +12,7 @@
     "everyauth": "^0.4.9",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
-    "jsdom": "^7.2.2",
+    "jsdom": "^11.5.1",
     "method-override": "^2.3.10",
     "morgan": "^1.9.0",
     "redis-url": "^1.2.1",
