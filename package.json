@@ -19,7 +19,7 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
-    "docco": "0.7.x"
+    "docco": "0.8.x"
   },
   "engines": {
     "node": "8.9.4",
